@@ -160,39 +160,40 @@ import matplotlib.pyplot as plt
 #
 # # plt.show()
 
-import csv  # 导入csv模块
-import matplotlib.pyplot as plt
-import matplotlib
-matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
-from datetime import datetime
-filename = 'D:\project\py_project\data.csv'  # 将要使用的文件名赋值给filename
+# import csv  # 导入csv模块
+# import matplotlib.pyplot as plt
+# import matplotlib
+# matplotlib.use('TkAgg')
+# import matplotlib.pyplot as plt
+# from datetime import datetime
+# filename = 'D:\project\py_project\data.csv'  # 将要使用的文件名赋值给filename
+#
+# with open(filename) as f:  # 打开文件，并将返回的文件对象赋值给f
+#     reader = csv.reader(f)  # 调用csv.read()创建一个与文件对象f相关联的阅读器对象，并赋值给reader
+#     header_row = next(reader)  # next()返回文件的下一行，将该行赋值给header_row
+#
+#     # 从文件中获取最高温度
+#     dates, highs = [], []  # 创建空列表
+#     for row in reader:  # 遍历文件中余下各行
+#         try:
+#             current_date = datetime.strptime(row[2], '%Y-%m-%d')  # 将包含日期信息的数据row[2]转化为datetime对象
+#             dates.append(current_date)  # 附加到列表dates末尾
+#             high = int(row[5])
+#             highs.append(high)
+#         except:
+#             print("运行失败")
+#
+# # 绘制最高温度
+# plt.style.use('seaborn')
+# fig, ax = plt.subplots()
+# ax.plot(dates, highs, c='red')
+#
+# # 设置图形格式
+# ax.set_title("Daily high temperatures - 2018", fontsize=24)
+# ax.set_xlabel('', fontsize=16)
+# fig.autofmt_xdate()  # 绘制倾斜的日期，以免重叠
+# ax.set_ylabel("Temperature (F)", fontsize=16)
+# ax.tick_params(axis='both', which='major', labelsize=16)
+#
+# # plt.show()
 
-with open(filename) as f:  # 打开文件，并将返回的文件对象赋值给f
-    reader = csv.reader(f)  # 调用csv.read()创建一个与文件对象f相关联的阅读器对象，并赋值给reader
-    header_row = next(reader)  # next()返回文件的下一行，将该行赋值给header_row
-
-    # 从文件中获取最高温度
-    dates, highs = [], []  # 创建空列表
-    for row in reader:  # 遍历文件中余下各行
-        try:
-            current_date = datetime.strptime(row[2], '%Y-%m-%d')  # 将包含日期信息的数据row[2]转化为datetime对象
-            dates.append(current_date)  # 附加到列表dates末尾
-            high = int(row[5])
-            highs.append(high)
-        except:
-            print("运行失败")
-
-# 绘制最高温度
-plt.style.use('seaborn')
-fig, ax = plt.subplots()
-ax.plot(dates, highs, c='red')
-
-# 设置图形格式
-ax.set_title("Daily high temperatures - 2018", fontsize=24)
-ax.set_xlabel('', fontsize=16)
-fig.autofmt_xdate()  # 绘制倾斜的日期，以免重叠
-ax.set_ylabel("Temperature (F)", fontsize=16)
-ax.tick_params(axis='both', which='major', labelsize=16)
-
-plt.show()
