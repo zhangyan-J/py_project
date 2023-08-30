@@ -25,8 +25,8 @@ while True:
 
     # 隐藏坐标轴
     frame = plt.gca()
-    # frame.axes.get_xaxis().set_visable(False)##此处按照视频的弹幕提示改了之后就可以运行起来了
-    # frame.axes.get_yaxis().set_visable(False)
+    frame.axes.get_xaxis().set_visable(False)##此处按照B站致敬大神的视频的弹幕提示改了之后就可以运行起来了
+    frame.axes.get_yaxis().set_visable(False)
 
     ##书上的内容
     # plt.axes().get_xaxis().set_visible(False)
