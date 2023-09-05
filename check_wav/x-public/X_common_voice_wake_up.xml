@@ -1,0 +1,134 @@
+<functions>
+	<function name="X_common_voice_wake_up">
+
+		<!-- 模块: 语音 -->
+		<!-- 描述: 通过语音命令唤醒语音 -->
+		<!-- 特征: NA -->
+		<!-- 开始界面: 可唤醒语音页面 -->
+		<!-- 结束界面: 同页面 -->
+		<!-- 使用方法:  -->
+		<!-- <callFunction name="X_common_voice_wake_up"> -->
+			<!-- <param name="screen">主驾/副驾/后排</param> -->
+		<!-- </callFunction> -->
+
+		<block if="$.screen=='主驾'">
+			<!-- 切换屏幕到主驾  -->
+			<action name="changeDisplay">
+				<param name="args">sleep 1</param>
+				<param name="secondDisplay">false</param>
+			</action>
+			<block loop="3">
+				<!-- 语音唤醒 -->
+				<action name="playAudio">
+					<param name="path">理想同学.wav</param>
+					<param name="sleep_ms">1000</param>
+				</action>
+				<!-- 验证查看是否存在5.0AI区语音形象，未唤醒再叫一次， -->
+				<action id="ifExist0" name="ifExist">
+					<param name="nodeProp">
+						<map>
+							<entry key="id">com.chehejia.car.voice:id/topic_main_exit_text</entry>
+						</map>
+					</param>
+					<param name="capture">true</param>
+					<param name="sleep_ms">500</param>
+				</action>
+				<block if="$.ifExist0.text==1">
+					<!-- 跳出循环 -->
+					<action name="break"/>
+				</block>
+				<block if="$.ifExist0.text == 0 ">
+					<!-- 查看是否存在5.0语音形象  -->
+					<action id="ifExist4" name="ifExist">
+						<param name="nodeProp">
+							<map>
+								<entry key="id">com.chehejia.car.voice:id/full_wiki</entry>
+							</map>
+						</param>
+						<param name="capture">true</param>
+						<param name="sleep_ms">0</param>
+					</action>
+				</block>
+			</block>
+		</block>
+		
+		<block if="$.screen=='副驾'">
+			<!-- 切换屏幕到副驾  -->
+			<action name="changeDisplay">
+				<param name="args">sleep 1</param>
+				<param name="secondDisplay">true</param>
+			</action>
+			<block loop="3">
+				<!-- 语音唤醒 -->
+				<action name="playAudio">
+					<param name="path">理想同学.wav</param>
+					<param name="sleep_ms">1000</param>
+				</action>
+				<!-- 验证是否唤醒，未唤醒再叫一次 -->
+				<action id="ifExist1" name="ifExist">
+					<param name="nodeProp">
+						<map>
+							<entry key="id">com.chehejia.car.voice:id/topic_main_exit_text</entry>
+						</map>
+					</param>
+					<param name="capture">true</param>
+					<param name="sleep_ms">500</param>
+				</action>
+				<block if="$.ifExist1.text==1">
+					<!-- 跳出循环 -->
+					<action name="break"/>
+				</block>
+				<block if="$.ifExist1.text == 0 ">
+					<!-- 查看是否存在5.0语音形象  -->
+					<action id="ifExist5" name="ifExist">
+						<param name="nodeProp">
+							<map>
+								<entry key="id">com.chehejia.car.voice:id/full_wiki</entry>
+							</map>
+						</param>
+						<param name="capture">true</param>
+						<param name="sleep_ms">0</param>
+					</action>
+				</block>
+			</block>
+		</block>
+		
+		<block if="$.screen=='后排'">
+			<block loop="3">
+				<!-- 语音唤醒 -->
+				<action name="playAudio">
+					<param name="path">理想同学.wav</param>
+					<param name="sleep_ms">1000</param>
+				</action>
+				<!-- 验证是否唤醒，未唤醒再叫一次 -->
+				<action id="ifExist2" name="ifExist">
+					<param name="nodeProp">
+						<map>
+							<entry key="id">com.chehejia.car.voice:id/topic_main_exit_text</entry>
+						</map>
+					</param>
+					<param name="capture">true</param>
+					<param name="sleep_ms">500</param>
+					<param name="deviceName">rear_8155</param>
+				</action>
+				<block if="$.ifExist2.text==1">
+					<!-- 跳出循环 -->
+					<action name="break"/>
+				</block>
+				<block if="$.ifExist2.text == 0 ">
+					<!-- 查看是否存在5.0语音形象  -->
+					<action id="ifExist6" name="ifExist">
+						<param name="nodeProp">
+							<map>
+								<entry key="id">com.chehejia.car.voice:id/full_wiki</entry>
+							</map>
+						</param>
+						<param name="capture">true</param>
+						<param name="sleep_ms">0</param>
+					</action>
+				</block>
+			</block>
+		</block>
+
+	</function>
+</functions>

@@ -3,32 +3,30 @@ import glob
 import re
 
 # 匹配文件夹下的所有 XML 文件
-folder_path = 'D:\project\py_project\check_wav'
+folder_path = 'D:\project\py_project\check_wav\\x-public'
 
 
 # 递归遍历目录下的所有 XML 文件
 def traverse_xml_files(folder_path):
     for root, dirs, files in os.walk(folder_path):
-        # print(f'{root}')
-        # print(f'dirs:{dirs}')
-        # print(f'files:{files}')
-        # print(root,dirs,files)
+        files[:] = [f for f in files if f.endswith(".xml")]
+        # print(files)
         for file in files:
             # print(os.path.join(root, file))
-            if file.endswith('xml'):
-                xml_file_path = os.path.join(root, file)
-                print(f"处理文件：{xml_file_path}")
+            # if file.endswith('xml'):
+            xml_file_path = os.path.join(root, file)
+            print(f"处理文件：{xml_file_path}")
 
-                # 遍历所有文件中的所有行
-                with open(xml_file_path, 'r', encoding='utf-8') as fin:
-                    xml_content = fin.read()
-                    pattern = r'<param name="path">(.*?)</param>'
-                    # 使用正则表达式进行匹配
-                    matches = re.findall(pattern, xml_content)
-                    # 打印匹配结果
-                    for match in matches:
-                        print(match)
-                    return matches
+            # 遍历所有文件中的所有行
+            with open(xml_file_path, 'r', encoding='utf-8') as fin:
+                xml_content = fin.read()
+                pattern = r'<param name="path">(.*?)</param>'
+                # 使用正则表达式进行匹配
+                matches = re.findall(pattern, xml_content)
+                # 打印匹配结果
+                for match in matches:
+                    print(match)
+                return matches
 
 
 # 调用递归函数

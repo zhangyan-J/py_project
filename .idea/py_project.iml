@@ -5,7 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/15.3" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/check_wav" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/check_wav/x-public" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/check_wav/x-public" isTestSource="true" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.9" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

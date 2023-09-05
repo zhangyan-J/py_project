@@ -197,3 +197,14 @@ import matplotlib.pyplot as plt
 #
 # # plt.show()
 
+folder_path = 'D:\project\py_project\check_wav'
+
+import os
+# 递归遍历目录下的所有 XML 文件
+
+for root, dirs, files in os.walk(folder_path):
+    files[:] = [f for f in files if f.endswith(".xml")]
+    for file in files:
+        # 输出找到的文件目录
+        print("the full name of the file is :",
+              os.path.join(root, file))
