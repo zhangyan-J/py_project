@@ -98,7 +98,7 @@ import matplotlib.pyplot as plt
 # plt.show()
 
 
-#导入pandas库
+# 导入pandas库
 # import pandas as pd
 # #生成一个Series
 # s=pd.Series([1,3,3,4], index=list('ABCD'))
@@ -197,14 +197,37 @@ import matplotlib.pyplot as plt
 #
 # # plt.show()
 
-folder_path = 'D:\project\py_project\check_wav'
-
+# folder_path = 'D:\project\py_project\check_wav'
+#
+# import os
+# # 递归遍历目录下的所有 XML 文件
+#
+# for root, dirs, files in os.walk(folder_path):
+#     files[:] = [f for f in files if f.endswith(".xml")]
+#     for file in files:
+#         # 输出找到的文件目录
+#         print("the full name of the file is :",
+#               os.path.join(root, file))
+# coding=utf-8
 import os
-# 递归遍历目录下的所有 XML 文件
+import os.path
 
-for root, dirs, files in os.walk(folder_path):
-    files[:] = [f for f in files if f.endswith(".xml")]
-    for file in files:
-        # 输出找到的文件目录
-        print("the full name of the file is :",
-              os.path.join(root, file))
+path = 'D:\project\py_project\check_wav'
+files = os.listdir(path)  # 得到文件夹下所有文件名称
+s = []
+for subFile in files:  # 遍历文件夹
+    file_path = os.path.join(path, subFile)  # 拼接文件绝对路径。
+    xmlfiles = os.listdir(file_path)
+    for xmlFile in xmlfiles:
+        xmlpath = os.path.join(file_path, xmlFile)
+        if os.path.splitext(xmlpath)[1] == ".xml":  # 找到指定后缀的文件
+            # print(xmlpath)
+            try:
+                # file_data = ""  # 临时存放修改后的文档。
+                # 读取指定文件，并替换指定内容后形成新的文本。
+                f_read = open(xmlpath, "r", encoding='utf-8')
+                for line in f_read.readlines():
+                    if 'Button' in line:
+                        print(xmlpath)
+            except:
+                print('no xml')
