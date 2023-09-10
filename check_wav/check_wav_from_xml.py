@@ -18,6 +18,7 @@ def traverse_xml_files(folder_path):
             # print( f"处理文件：{xml_file_path}" )
             xml_files.append(xml_file_path)
             # print(xml_files)
+
     return xml_files
 
 

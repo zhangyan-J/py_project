@@ -196,38 +196,55 @@ import matplotlib.pyplot as plt
 # ax.tick_params(axis='both', which='major', labelsize=16)
 #
 # # plt.show()
+import xlwt
+import xlrd
+from xlutils import copy
+from xlutils.filter import process, XLRDReader, XLWTWriter
+import time
+import datetime
 
-# folder_path = 'D:\project\py_project\check_wav'
-#
-# import os
-# # 递归遍历目录下的所有 XML 文件
-#
-# for root, dirs, files in os.walk(folder_path):
-#     files[:] = [f for f in files if f.endswith(".xml")]
-#     for file in files:
-#         # 输出找到的文件目录
-#         print("the full name of the file is :",
-#               os.path.join(root, file))
-# coding=utf-8
-import os
-import os.path
 
-path = 'D:\project\py_project\check_wav'
-files = os.listdir(path)  # 得到文件夹下所有文件名称
-s = []
-for subFile in files:  # 遍历文件夹
-    file_path = os.path.join(path, subFile)  # 拼接文件绝对路径。
-    xmlfiles = os.listdir(file_path)
-    for xmlFile in xmlfiles:
-        xmlpath = os.path.join(file_path, xmlFile)
-        if os.path.splitext(xmlpath)[1] == ".xml":  # 找到指定后缀的文件
-            # print(xmlpath)
-            try:
-                # file_data = ""  # 临时存放修改后的文档。
-                # 读取指定文件，并替换指定内容后形成新的文本。
-                f_read = open(xmlpath, "r", encoding='utf-8')
-                for line in f_read.readlines():
-                    if 'Button' in line:
-                        print(xmlpath)
-            except:
-                print('no xml')
+def write_excel_xls_append(value):
+    index = len(value)  # 获取需要写入数据的行数
+    style_list = w.style_list
+    for n, sheet in enumerate(workbook_rb.sheets()):
+        new_worksheet = workbook_wb.get_sheet(n)  # 获取转化后工作簿中的第一个表格
+        for i in range(0, index):
+            # 读取原有单元格格式style
+            style_gongshi = style_list[sheet.cell_xf_index(i + 5, 5)]
+            style_gongshi1 = style_list[sheet.cell_xf_index(i + 5, 6)]
+            for j in range(0, len(value[i])):
+                print(value[i])
+                # 由于我们这excel前几行是标题、列名等。所以需要从特定行、列写入，顺延。
+                style_danshuju = style_list[sheet.cell_xf_index(i + 5, j + 1)]  # 获取当前单元格的style
+                # 写入数据（value是list数据，所以用下角标取）
+                print((value[i][j]))
+                print(i, type(i), j)
+                new_worksheet.write(i + 5, j + 1, (value[i][j]), style_danshuju)
+                print('写入数据成功')
+            # 添加公式
+            new_worksheet.write(i + 5, 5, xlwt.Formula('SUM(B{}:E{})'.format(i + 6, i + 6)), style_gongshi)
+            print('公式写入成功')
+            new_worksheet.write(i + 5, 6, xlwt.Formula('E{}-B{}'.format(i + 6, i + 6)), style_gongshi1)
+            print('公式1写入成功')
+    return True
+
+
+def add_formula(r, l, formula):
+    new_worksheet = workbook_wb.get_sheet(0)
+    new_worksheet.write(r, l, xlwt.Formula(formula))
+    return True
+
+
+if __name__ == '__main__':
+    savepath = 'D:/wqh/python/pythonProject_write_excel/excel表格.xls'  # 已有xls的路径
+    data = [[12, 34, 44, 55], [22, 34, 44, 565], [12, 34, 44, 55], [22, 34, 44, 565]]
+    workbook_rb = xlrd.open_workbook(savepath, formatting_info=True)  # 打开工作簿得到文件，formatting_info=True必须加才可以保存
+    w = XLWTWriter()
+    process(XLRDReader(workbook_rb, 'unknown.xls'), w)
+    workbook_wb = w.output[0][1]
+    # 写入数据
+    write_excel_xls_append(data)
+    workbook_wb.save(savepath)
+
+
