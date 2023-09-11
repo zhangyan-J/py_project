@@ -6,6 +6,8 @@
       <sourceFolder url="file://$MODULE_DIR$/15.3" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/check_wav" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/check_wav/x-public" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/拆分excel到目录并且打包成zip" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/braek_up_excel" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.9" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
