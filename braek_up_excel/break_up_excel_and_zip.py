@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# -*- coding:utf-8 -*-
+
 # 先把一个excel里的每个sheet文件按照sheetname分成单个excel文件，按文件后缀名为xlsx放入一个文件夹并且打包成zip
 import datetime
 
@@ -33,7 +36,7 @@ for name in sheetnames:
     for i, row in enumerate(ws.iter_rows()):
         for j, cell in enumerate(row):
             # 写入新excel
-            a = ws2.cell(row=i + 1, column=j + 1, value=cell.value)
+            ws2.cell(row=i + 1, column=j + 1, value=cell.value)
             # print(ws2)
             ##设置列宽
             ws2.column_dimensions['A'].width = 20.0
@@ -59,12 +62,45 @@ for file in os.listdir(dir):
     target_path = f"{dir}/{ext}/{file}"
     shutil.move(source_path, target_path)  ##文件移动
 
-    # print(file, ext)
+    print(file, ext)
 
-src_dir = dir
-zip_file =  datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')+ 'result' + '_zip' + '.zip'
-zip = zipfile.ZipFile(zip_file, 'w', zipfile.ZIP_DEFLATED)
-for root, dirs, files in os.walk(src_dir):
-    for file in files:
-        zip.write(os.path.join(root, file))
-zip.close()
+
+"""
+@Author   :xxxxx
+@Contact  :1223242863@qq.com
+@File     :zip.py
+@Time     :2021/8/17 11:27 PM
+@Software :Pycharm
+@Copyright (c) 2021,All Rights Reserved.
+"""
+
+import os
+import zipfile
+from datetime import datetime
+
+import datetime as datetime
+from loguru import logger
+
+
+def getZipDir(dirpath, outFullName):
+    """
+    压缩指定文件夹
+    :param dirpath: 目标文件夹路径
+    :param outFullName: 压缩文件保存路径+xxxx.zip
+    :return: 无
+    """
+    zip = zipfile.ZipFile(outFullName, "w", zipfile.ZIP_DEFLATED)
+    for path, dirnames, filenames in os.walk(dirpath):
+        # 去掉目标跟路径，只对目标文件夹下边的文件及文件夹进行压缩
+        fpath = path.replace(dirpath, '')
+
+        for filename in filenames:
+            zip.write(os.path.join(path, filename), os.path.join(fpath, filename))
+    zip.close()
+    logger.info("文件夹\"{0}\"已压缩为\"{1}\".".format(dirpath, outFullName))
+
+
+if __name__ == "__main__":
+    outFullName = './' + datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S') + '_output.zip'
+    getZipDir(dirpath="./",
+              outFullName = outFullName)
