@@ -12,20 +12,32 @@ import pandas as pd
 # a = os.getcwd()
 # print(a)
 
-file_path = r'D:\project\py_project\\precode_check\用例列表.xlsx'
-def read_excel(file_path):
-    df = pd.read_excel(file_path,sheet_name='Sheet1')
-    # print(df.head())
-    #读取指定的列
-    column_name = '适用项目'
-    #逐个取出指定列中的值
-    # for value in df[column_name]:
-    #     print(value)
+file_path = r'D:\Practice\github\py_project\check_precode\用例列表.xlsx'
+# def read_excel(file_path):
+df = pd.read_excel(file_path,sheet_name='项目用例')
+# print(df.head())
+#读取指定的列
+column_name1 = '*适用项目'
+cloumn_name2 = 'precode'
+#逐个取出指定列中的值
+# for value in df[column_name]:
+#     print(value)
 
-    #把读取到的指定列的数据生成一个list
-    mylist = df[column_name].tolist()
-    print(mylist)
-    return mylist
+#把读取到的指定列的数据生成一个list
+project_list = df[column_name1].tolist()
+precode_list = df[cloumn_name2].tolist()
+print(project_list)
+print(precode_list)
+    # return project_list
+    # return precode_list
+for sublist in precode_list:
+    for item in sublist:
+        # print( f"Found {sublist} in the precode_list list!" )
+        print(item)
 
-read_excel(file_path)
 
+
+
+
+
+# read_excel(file_path)
