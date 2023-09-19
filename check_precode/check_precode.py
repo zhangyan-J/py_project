@@ -54,27 +54,37 @@ class ExcelProcessor:
     def __init__(self, file_path):
         self.file_path = file_path
 
-    def check_rows(self, sheet_name, condition_column, condition_value,condition_value2, target_column, target_field,target_field2):
+    def check_rows(self, sheet_name, condition_column, condition_value,condition_value2,condition_value3, target_column, target_field, target_field2, target_field3):
         df = pd.read_excel( self.file_path, sheet_name=sheet_name )
 
         for index, row in df.iterrows():
-            condition = row[condition_column]
-            target = row[target_column]
+            condition = row[condition_column]#遍历列名为“condition”的每行数据
+            # print(condition)
+            target = row[target_column]#遍历列名为“target”的每行数据
+            # print(target)
 
             if condition == condition_value and target_field in str( target ):
                 print(
                     f"Condition '{condition_value}' met in row {index}, and {target_column} column contains '{target_field}'." )
-            elif condition == condition_value2 and target_field in str( target ):
+            # elif condition != condition_value and target_field in str(target):
+            #     print(f"Condition '{condition_value}' met in row {index}, and {target_column} column does't contains '{target_field}'.")
+            elif condition == condition_value2 and target_field2 in str( target ):
                 print(
                     f"Condition '{condition_value2}' met in row {index}, and {target_column} column contains '{target_field2}'." )
+            elif condition == condition_value3 and target_field2 in str( target ):
+                print(
+                    f"Condition '{condition_value3}' met in row {index}, and {target_column} column contains '{target_field3}'." )
+            elif condition !=  condition_value  and target_field in str(target):
+            # elif condition != condition_value and condition_value2 and condition_value2 and condition_value3and target_field in str(target):
+                print(f"Condition '{condition_value}' met in row {index}, and {target_column} column does't contains '{target_field}'.")
         print( "All rows checked." )
 
 
 # 创建 ExcelProcessor 类的实例
-processor = ExcelProcessor( 'D:\Practice\github\py_project\check_precode\用例列表.xlsx' )
+processor = ExcelProcessor( './check_precode\用例列表.xlsx' )
 
 # 检查 "Sheet1" 中 "Condition" 列是否为 True，同时检查 "Target" 列是否包含 "Content"
 # processor.check_rows( "项目用例", "*适用项目", 'X-Public', "precode", "语音Xpublic" )
-processor.check_rows( "项目用例", "*适用项目",'X-Public', 'X-Public-max', "precode", "语音Xpublic","语音Xax" )
+processor.check_rows( "项目用例", "*适用项目",'X-Public', 'X-Public-Max','X-Public-Pro', "precode", "语音Xpublic","语音Xmax",'语音Xpro' )
 
 
