@@ -47,7 +47,6 @@
 
 
 # read_excel(file_path)
-
 import pandas as pd
 
 
@@ -55,23 +54,27 @@ class ExcelProcessor:
     def __init__(self, file_path):
         self.file_path = file_path
 
-    def check_columns(self, sheet_name, condition_column, condition_value, target_column, target_content):
+    def check_rows(self, sheet_name, condition_column, condition_value,condition_value2, target_column, target_field,target_field2):
         df = pd.read_excel( self.file_path, sheet_name=sheet_name )
 
-        condition_data = df[condition_column].tolist()
-        target_data = df[target_column].tolist()
+        for index, row in df.iterrows():
+            condition = row[condition_column]
+            target = row[target_column]
 
-        for condition, target in zip( condition_data, target_data ):
-            if condition == condition_value and target != target_content:
+            if condition == condition_value and target_field in str( target ):
                 print(
-                    f"Condition '{condition_value}' met in {condition_column} column, but {target_column} column does not have '{target_content}'." )
-                return
-
-        print( f"All conditions are satisfied." )
+                    f"Condition '{condition_value}' met in row {index}, and {target_column} column contains '{target_field}'." )
+            elif condition == condition_value2 and target_field in str( target ):
+                print(
+                    f"Condition '{condition_value2}' met in row {index}, and {target_column} column contains '{target_field2}'." )
+        print( "All rows checked." )
 
 
 # 创建 ExcelProcessor 类的实例
 processor = ExcelProcessor( 'D:\Practice\github\py_project\check_precode\用例列表.xlsx' )
 
 # 检查 "Sheet1" 中 "Condition" 列是否为 True，同时检查 "Target" 列是否包含 "Content"
-processor.check_columns( "项目用例", "*适用项目", 'X-Public', "precode", "语音Xpublic" )
+# processor.check_rows( "项目用例", "*适用项目", 'X-Public', "precode", "语音Xpublic" )
+processor.check_rows( "项目用例", "*适用项目",'X-Public', 'X-Public-max', "precode", "语音Xpublic","语音Xax" )
+
+
