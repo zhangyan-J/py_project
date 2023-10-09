@@ -69,29 +69,39 @@ class ExcelProcessor:
                 print(f"Condition '{condition}' met in row {index}, and {target_column} column does't contains '{target_field}', the precode is {target}")
             elif condition == condition_value and target_field not in str(target):
                 print(f"Condition '{condition}' met in row {index}, and {target_column} column does't contains '{target_field}', the precode is {target}")
+
+
+
+
+            elif condition == condition_value and target_field2 not in str(target):
+                print(f"Condition '{condition}' met in row {index}, and {target_column} column does't contains '{target_field2}', the precode is {target}")
+            elif condition == condition_value and target_field3 not in str(target):
+                print(f"Condition '{condition}' met in row {index}, and {target_column} column does't contains '{target_field3}', the precode is {target}")
+            elif condition != condition_value and target_field2 in str(target):
+                print(f"Condition '{condition}' met in row {index}, and {target_column} column does't contains '{target_field2}', the precode is {target}")
+            elif condition != condition_value and target_field3 in str(target):
+                print(
+                    f"Condition '{condition}' met in row {index}, and {target_column} column does't contains '{target_field3}', the precode is {target}")
+
+
+
+
+
+
+            if condition == condition_value2 and target_field2 in str( target ):
+                print(f"Condition '{condition}' met in row {index}, and {target_column} column contains '{target_field2}'." )
             elif condition != condition_value2 and target_field2 in str(target):
                 print(f"Condition '{condition}' met in row {index}, and {target_column} column does't contains '{target_field2}', the precode is {target}")
             elif condition == condition_value2 and target_field2 not in str(target):
                 print(f"Condition '{condition}' met in row {index}, and {target_column} column does't contains '{target_field2}', the precode is {target}")
+
+            if condition == condition_value3 and target_field3 in str( target ):
+                print(f"Condition '{condition}' met in row {index}, and {target_column} column contains '{target_field3}'." )
             elif condition != condition_value3 and target_field3 in str(target):
                 print(f"Condition '{condition}' met in row {index}, and {target_column} column does't contains '{target_field3}', the precode is {target}")
             elif condition == condition_value3 and target_field3 not in str(target):
                 print(f"Condition '{condition}' met in row {index}, and {target_column} column does't contains '{target_field3}', the precode is {target}")
-            if condition == condition_value2 and target_field2 in str( target ):
-                print(f"Condition '{condition_value2}' met in row {index}, and {target_column} column contains '{target_field2}'." )
-            elif condition != condition_value2 and target_field2 in str(target):
-                print(f"Condition '{condition_value2}' met in row {index}, and {target_column} column does't contains '{target_field2}'.")
-            elif condition == condition_value2 and target_field not in str(target):
-                print(f"Condition '{condition_value2}' met in row {index}, and {target_column} column does't contains '{target_field2}', the precode is {target}")
-            #
-            #
-            # if condition == condition_value3 and target_field3 in str( target ):
-            #     print(f"Condition '{condition_value3}' met in row {index}, and {target_column} column contains '{target_field3}'." )
-            # elif condition != condition_value3 and target_field3 in str(target):
-            #     print(f"Condition '{condition_value3}' met in row {index}, and {target_column} column does't contains '{target_field3}'.")
-            # elif condition == condition_value3 and target_field not in str(target):
-            #     print(f"Condition '{condition_value3}' met in row {index}, and {target_column} column does't contains '{target_field3}', the precode is {target}")
-        # print( "All rows checked." )
+    print( "All rows checked." )
 # 创建 ExcelProcessor 类的实例
 processor = ExcelProcessor( './check_precode\用例列表.xlsx' )
 # 检查 "Sheet1" 中 "Condition" 列是否为 True，同时检查 "Target" 列是否包含 "Content"
