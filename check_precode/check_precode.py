@@ -96,4 +96,4 @@ class ExcelProcessor:
 processor = ExcelProcessor( './check_precode\用例列表.xlsx' )
 # 检查 "Sheet1" 中 "Condition" 列是否为 True，同时检查 "Target" 列是否包含 "Content"
 # processor.check_rows( "项目用例", "*适用项目", 'X-Public', "precode", "语音Xpublic" )
-processor.check_rows( "项目用例", "*适用项目",condition_value='X-Public', condition_value2='X-Public-Max',condition_value3='X-Public-Pro', target_column="precode", target_field="语音Xpublic",target_field2="语音Xmax",target_field3='语音Xpro' )（已编辑）
+processor.check_rows( "项目用例", "*适用项目",condition_value='X-Public', condition_value2='X-Public-Max',condition_value3='X-Public-Pro', target_column="precode", target_field="语音Xpublic",target_field2="语音Xmax",target_field3='语音Xpro' )
