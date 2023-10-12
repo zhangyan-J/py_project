@@ -196,3 +196,16 @@ import matplotlib.pyplot as plt
 # ax.tick_params(axis='both', which='major', labelsize=16)
 #
 # # plt.show()
+
+import pyttsx3
+
+def text_to_speech(text):
+    # 创建一个语音引擎
+    engine = pyttsx3.init()
+    # 将文本转换为语音
+    engine.say(text)
+    # 播放语音
+    engine.runAndWait()
+
+# 调用函数进行文字转语音
+text_to_speech("你好，我是文心一言，很高兴为您服务！")
