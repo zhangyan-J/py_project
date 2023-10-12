@@ -4,7 +4,7 @@
 # 1. 遍历每行用例，先把precode一列的数据提取处理，转换成一个列表
 # 2. 获取每条用例的适用项目，将使用项目生成一个列表，判断该用例的适用项目在此列表中属于哪个元素
 # 3. if in xpublic 适用项目应该有语音Xpublic，if in x-public-max适用项目应该有语音Xmax，if inx-public-pro，应有语音Xpro
-
+import pandas as pd
 file_path = r'D:\Practice\github\py_project\check_precode\用例列表.xlsx'
 # 读取Excel文件
 df = pd.read_excel( file_path )
