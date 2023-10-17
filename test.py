@@ -197,15 +197,50 @@ import matplotlib.pyplot as plt
 #
 # # plt.show()
 
-import pyttsx3
+# import pyttsx3
+#
+# def text_to_speech(text):
+#     # 创建一个语音引擎
+#     engine = pyttsx3.init()
+#     # 将文本转换为语音
+#     engine.say(text)
+#     # 播放语音
+#     engine.runAndWait()
+#
+# # 调用函数进行文字转语音
+# text_to_speech("你好，我是文心一言，很高兴为您服务！")
 
-def text_to_speech(text):
-    # 创建一个语音引擎
-    engine = pyttsx3.init()
-    # 将文本转换为语音
-    engine.say(text)
-    # 播放语音
-    engine.runAndWait()
+# #导入selenium模块
+# from selenium import webdriver
+#
+# from time import sleep
+# from selenium.webdriver.common.by import By
+#
+# #启动浏览器驱动
+# driver = webdriver.Chrome()
+#
+# #访问url
+# driver.get('https://www.baidu.com')
+#
+# #定位元素
+# el = driver.find_element(By.ID,'kw')
+#
+# #执行自动化操作
+# el.send_keys('NBA头条')
+# bt = driver.find_element(By.ID,'su').click()
+#
+# #休眠5秒
+# sleep(5)
+#
+# #关闭浏览器并且释放进程资源
+# driver.quit()
+import pyecharts
+# print(pyecharts.__version__)
+from pyecharts.charts import Bar
 
-# 调用函数进行文字转语音
-text_to_speech("你好，我是文心一言，很高兴为您服务！")
+bar = Bar()
+bar.add_xaxis(["衬衫","羊毛衫",'雪纺裤','裤子','高跟鞋','袜子'])
+bar.add_yaxis("商家A",[5,20,36,10,75,90])
+# render 会生成本地 HTML 文件，默认会在当前目录生成 render.html 文件
+# 也可以传入路径参数，如 bar.render("mycharts.html")
+bar.render('mycharts.html')
