@@ -17,12 +17,12 @@
 				<param name="args">sleep 1</param>
 				<param name="secondDisplay">false</param>
 			</action>
-						<action id="tts_correct" name="assertLogcat">
+			<block loop="3">
+							<action id="tts_correct" name="assertLogcat">
 				<param name="expected">get tts info;{$.value}</param>
 				<param name="regular">true</param>
 				<param name="skipexception">true</param>
 			</action>
-			<block loop="3">
 				<!-- 语音唤醒 -->
 				<action name="playAudio">
 					<param name="path">我想听歌.wav</param>

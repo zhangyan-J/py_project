@@ -17,15 +17,10 @@
 				<param name="args">sleep 1</param>
 				<param name="secondDisplay">false</param>
 			</action>
-						<action id="tts_correct" name="assertLogcat">
-				<param name="expected">get tts info;{$.value}</param>
-				<param name="regular">true</param>
-				<param name="skipexception">true</param>
-			</action>
 			<block loop="3">
 				<!-- 语音唤醒 -->
 				<action name="playAudio">
-					<param name="path">我想听歌.wav</param>
+					<param name="path">理想同学.wav</param>
 					<param name="sleep_ms">1000</param>
 				</action>
 				<!-- 验证查看是否存在5.0AI区语音形象，未唤醒再叫一次， -->
@@ -66,7 +61,7 @@
 			<block loop="3">
 				<!-- 语音唤醒 -->
 				<action name="playAudio">
-					<param name="path">用爱奇艺播放电影.wav</param>
+					<param name="path">理想同学.wav</param>
 					<param name="sleep_ms">1000</param>
 				</action>
 				<!-- 验证是否唤醒，未唤醒再叫一次 -->
@@ -102,7 +97,7 @@
 			<block loop="3">
 				<!-- 语音唤醒 -->
 				<action name="playAudio">
-					<param name="path">退出导航.wav</param>
+					<param name="path">理想同学.wav</param>
 					<param name="sleep_ms">1000</param>
 				</action>
 				<!-- 验证是否唤醒，未唤醒再叫一次 -->
