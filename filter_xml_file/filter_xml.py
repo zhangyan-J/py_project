@@ -48,3 +48,13 @@ for xml_file_path in xml_files_list:
 print(assert_list)
 print("------音频库--WAV--文件列表: ----------")
 
+
+
+old_list = assert_list
+new_list = list(dict.fromkeys(old_list))
+print(new_list) # [2, 3, 4, 5, 1]
+
+with open('D:\project\py_project\\filter_xml_file\list.txt','w',encoding='utf-8') as f:
+    for line in new_list:
+        # print(line)
+        f.write(line+'\n')
