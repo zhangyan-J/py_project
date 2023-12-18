@@ -3,7 +3,7 @@ import glob
 import re
 
 # 匹配文件夹下的所有 XML 文件
-folder_path = 'D:\project\py_project\\filter_xml_file\\x-public'
+folder_path = 'D:\GIT\AutomationTest\Project\platform_X\X-Public\Scripts\Function_Script\语音'
 
 
 # 递归遍历目录下的所有 XML 文件
@@ -23,7 +23,7 @@ def traverse_xml_files(folder_path):
 
 
 xml_files_list = traverse_xml_files(folder_path)
-print(xml_files_list)
+# print(xml_files_list)
 # file_path = './output.txt'
 # # 打开文件以写入模式，并逐行写入列表元素
 # with open(file_path, 'w') as file:
@@ -42,10 +42,10 @@ for xml_file_path in xml_files_list:
         # 使用正则表达式进行匹配
         matches = re.findall(pattern, xml_content)
         for match in matches:
-            print(match)
+            # print(match)
             assert_list.append(match)
 
-print(assert_list)
+# print(assert_list)
 print("------音频库--WAV--文件列表: ----------")
 
 
@@ -54,7 +54,7 @@ old_list = assert_list
 new_list = list(dict.fromkeys(old_list))
 print(new_list) # [2, 3, 4, 5, 1]
 
-with open('D:\project\py_project\\filter_xml_file\list.txt','w',encoding='utf-8') as f:
+with open('D:\Practice\github\py_project\\filter_xml_file\\asser_list.txt','w',encoding='utf-8') as f:
     for line in new_list:
         # print(line)
         f.write(line+'\n')
