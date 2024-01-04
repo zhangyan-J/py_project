@@ -55,6 +55,15 @@
 #     TOP.mainloop()
 
 ### python 使用tkinter&subprocess 制作adb工具
+# 工具涵盖功能：
+# 1.查看车机版本，5G版本，mcu版本
+# 2.提供一个同步按钮，点击后同步飞书云文档指定sheet页的数据到本地，且在指定路径生成最新的bat文件，
+# 3.执行adb命令集，一般是多个adb shell命令
+# 4.执行shell命令集
+# 5.提供多个tab页，不同tab页不同功能
+##需要调试的点：
+# 1.多个设备连接时，获取多个设备devices id，指定device id获取版本信息，安装apk
+# 2.
 from tkinter import *
 import subprocess
 import tkinter.filedialog
@@ -122,23 +131,23 @@ win.title('adb命令工具箱')
 txt = Text(win)
 txt.place(rely=0.5, relheight=0.5)
 
-btn1 = Button(win, text='安卓版本', command=getDevicesVersion)
+btn1 = Button(win, text='hu版本', command=getDevicesVersion)
 btn1.place(relx=0.1, rely=0.1, relwidth=0.2, relheight=0.1)
 btn2 = Button(win, text='获取设备', command=getDevices)
 btn2.place(relx=0.1, rely=0.2, relwidth=0.2, relheight=0.1)
 btn3=Button(win,text='选择apk安装',command=localInstall)
 btn3.place(relx=0.1, rely=0.3, relwidth=0.2, relheight=0.1)
-btn4 = Button(win, text='查看手机安装包名', command=listPackages)
+btn4 = Button(win, text='查看安装包名', command=listPackages)
 btn4.place(relx=0.3, rely=0.1, relwidth=0.2, relheight=0.1)
-btn5 = Button(win, text='查看手机第三方包名', command=listPackages3)
+btn5 = Button(win, text='查看第三方包名', command=listPackages3)
 btn5.place(relx=0.3, rely=0.2, relwidth=0.2, relheight=0.1)
-btn6 = Button(win, text='查看手机系统包名', command=listPackagesSys)
+btn6 = Button(win, text='查看车机系统包名', command=listPackagesSys)
 btn6.place(relx=0.3, rely=0.3, relwidth=0.2, relheight=0.1)
-btn7 = Button(win, text='查看手机分辨率', command=getResolution)
-btn7.place(relx=0.5, rely=0.1, relwidth=0.2, relheight=0.1)
-btn8 = Button(win, text='查看手机像素密度', command=getPixelDensity)
-btn8.place(relx=0.5, rely=0.2, relwidth=0.2, relheight=0.1)
-btn9 = Button(win, text='查看手机', command=listPackages)
-btn9.place(relx=0.5, rely=0.3, relwidth=0.2, relheight=0.1)
+# btn7 = Button(win, text='查看手机分辨率', command=getResolution)
+# btn7.place(relx=0.5, rely=0.1, relwidth=0.2, relheight=0.1)
+# btn8 = Button(win, text='查看手机像素密度', command=getPixelDensity)
+# btn8.place(relx=0.5, rely=0.2, relwidth=0.2, relheight=0.1)
+# btn9 = Button(win, text='查看手机', command=listPackages)
+# btn9.place(relx=0.5, rely=0.3, relwidth=0.2, relheight=0.1)
 
 win.mainloop()
