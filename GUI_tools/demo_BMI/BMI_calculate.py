@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # from tkinter import *
 # from tkinter import messagebox
 #
@@ -68,14 +69,71 @@ from tkinter import *
 import subprocess
 import tkinter.filedialog
 import re
+import os
+
+def run_cmd( cmd_str='', echo_print=1):
+    """
+    执行cmd命令，不显示执行过程中弹出的黑框
+    备注：subprocess.run()函数会将本来打印到cmd上的内容打印到python执行界面上，所以避免了出现cmd弹出框的问题
+    :param cmd_str: 执行的cmd命令
+    :return:
+    """
+    from subprocess import run
+    if echo_print == 1:
+        print('\n执行cmd指令="{}"'.format(cmd_str))
+    run(cmd_str, shell=True)
+
+def check_adb_devices_ini():
+    global devices_list
+    import os
+    import re
+
+    # 获取所有的安卓设备SN号码
+    devices_list = []
+    adb_devices_file = 'D:\log\\adb.ini'
+    if os.path.exists(adb_devices_file):
+        run_cmd('del /f /q ' + adb_devices_file)
+    print(run_cmd('adb devices >' + adb_devices_file))
+
+    f = open(adb_devices_file, "r",encoding='gbk')
+    str_list = f.readlines()
+    print(str_list)
+    if 'device' not in str(str_list[1]):
+        print('adb devices:{}。未识别到任何adb设备，请确认安卓设备已正确连接且USB调试已打开...'.format(str_list))
+        print("未识别到任何设备，请确认设备已正确连接上...")
+        return -1
+
+    count = 1
+    for i in str_list:
+        if '\tdevice' in i:
+            device_name = ''
+            device_name = re.sub('\tdevice', '', i).replace('\n', '').strip()
+            print("Device_{}_name={}".format(count, device_name))
+            devices_list.append(device_name)
+            count = count + 1
+    print("devices_list={}".format(devices_list))
+    return devices_list
+
 def getDevicesVersion():
-    command_getVersion = 'adb shell getprop ro.build.version.release'
-    versionString = subprocess.Popen(command_getVersion, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.read()
-    versionString.wait()
-    versionString=versionString.decode()
-    versionString = re.split('\n', versionString)[0].strip('\r')
-    s='%s\n' % versionString
-    txt.insert(END, s)
+    # 存储所有设备的设备信息，即设备ID，设备版本号，设备的appActivity
+    global versionMsg, version
+    deviceMsgs = []
+    # 获取连接设备的版本号、appActivity
+    for i in range(0, len(devices_list)):
+        id = devices_list[i]
+        # 获取连接设备的安卓系统版本
+        versionMsg = list(os.popen('adb -s {} shell getprop ro.build.display.id'.format(id)).readlines())
+        version = str(versionMsg).split("'")[1].split("\\")[0]
+        # print("adb命令获取的设备版本号为：", versionMsg)
+        # print("处理后获取的设备版本号为：" + version)
+        command_getVersion = list(os.popen('adb -s {} shell getprop ro.build.display.id'.format(id)).readlines())
+        versionString = subprocess.Popen(command_getVersion, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.read()
+    # versionString.wait()
+        versionString=versionString.decode()
+        versionString = re.split('\n', versionString)[0].strip('\r')
+        s='%s\n' % versionString
+    # return command_getVersion
+        txt.insert(END, s)
 def getDevices():
     command_getVersion = 'adb devices'
     versionString = subprocess.Popen(command_getVersion, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.read()
@@ -130,7 +188,8 @@ win.title('adb命令工具箱')
 # 在窗体垂直自上而下位置50%处起，布局相对窗体高度50%高的文本框
 txt = Text(win)
 txt.place(rely=0.5, relheight=0.5)
-
+if __name__ == '__main__':
+    check_adb_devices_ini()
 btn1 = Button(win, text='hu版本', command=getDevicesVersion)
 btn1.place(relx=0.1, rely=0.1, relwidth=0.2, relheight=0.1)
 btn2 = Button(win, text='获取设备', command=getDevices)
