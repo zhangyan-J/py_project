@@ -71,7 +71,8 @@ import tkinter.filedialog
 import re
 import os
 
-def run_cmd( cmd_str='', echo_print=1):
+
+def run_cmd(cmd_str='', echo_print=1):
     """
     执行cmd命令，不显示执行过程中弹出的黑框
     备注：subprocess.run()函数会将本来打印到cmd上的内容打印到python执行界面上，所以避免了出现cmd弹出框的问题
@@ -82,6 +83,7 @@ def run_cmd( cmd_str='', echo_print=1):
     if echo_print == 1:
         print('\n执行cmd指令="{}"'.format(cmd_str))
     run(cmd_str, shell=True)
+
 
 def check_adb_devices_ini():
     global devices_list
@@ -95,7 +97,7 @@ def check_adb_devices_ini():
         run_cmd('del /f /q ' + adb_devices_file)
     print(run_cmd('adb devices >' + adb_devices_file))
 
-    f = open(adb_devices_file, "r",encoding='gbk')
+    f = open(adb_devices_file, "r")
     str_list = f.readlines()
     print(str_list)
     if 'device' not in str(str_list[1]):
@@ -114,73 +116,128 @@ def check_adb_devices_ini():
     print("devices_list={}".format(devices_list))
     return devices_list
 
-def getDevicesVersion():
+
+def getDevices_hu_Version():
     # 存储所有设备的设备信息，即设备ID，设备版本号，设备的appActivity
-    global versionMsg, version
     deviceMsgs = []
     # 获取连接设备的版本号、appActivity
     for i in range(0, len(devices_list)):
         id = devices_list[i]
         # 获取连接设备的安卓系统版本
-        versionMsg = list(os.popen('adb -s {} shell getprop ro.build.display.id'.format(id)).readlines())
-        version = str(versionMsg).split("'")[1].split("\\")[0]
+        # versionMsg = list(os.popen('adb -s {} shell getprop ro.build.display.id'.format(id)).readlines())
+        # version = str(versionMsg).split("'")[1].split("\\")[0]
         # print("adb命令获取的设备版本号为：", versionMsg)
-        # print("处理后获取的设备版本号为：" + version)
-        command_getVersion = list(os.popen('adb -s {} shell getprop ro.build.display.id'.format(id)).readlines())
-        versionString = subprocess.Popen(command_getVersion, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.read()
-    # versionString.wait()
-        versionString=versionString.decode()
+
+        hu_versionMsg = list(os.popen('adb -s {} shell getprop ro.build.display.id'.format(id)).readlines())
+        hu_command_getVersion = str(hu_versionMsg).split("'")[1].split("\\")[0]
+        # 5G_versionMsg = list(os.popen('adb -s {} shell getprop ro.build.display.id'.format(id)).readlines())
+        # command_getVersion = str(versionMsg).split("'")[1].split("\\")[0]
+        print("处理后获取的设备版本号为：" + hu_command_getVersion)
+        versionString = subprocess.Popen(hu_command_getVersion, shell=True, stdout=subprocess.PIPE,
+                                         stderr=subprocess.STDOUT).stdout.read()
+        # versionString.wait()##使用方法待研究
+        versionString = versionString.decode('gbk')
         versionString = re.split('\n', versionString)[0].strip('\r')
-        s='%s\n' % versionString
-    # return command_getVersion
+        s = '%s\n' % versionString
         txt.insert(END, s)
+
+
+def getDevices_5G_Version():
+    # 存储所有设备的设备信息，即设备ID，设备版本号，设备的appActivity
+    deviceMsgs = []
+    # 获取连接设备的版本号、appActivity
+    for i in range(0, len(devices_list)):
+        id = devices_list[i]
+        # 获取连接设备的安卓系统版本
+        # versionMsg = list(os.popen('adb -s {} shell getprop ro.build.display.id'.format(id)).readlines())
+        # version = str(versionMsg).split("'")[1].split("\\")[0]
+        # print("adb命令获取的设备版本号为：", versionMsg)
+
+        hu_versionMsg = list(os.popen('adb -s {} shell /vendor/bin/get_mcu_version'.format(id)).readlines())
+        hu_command_getVersion = str(hu_versionMsg).split("'")[1].split("\\")[0]
+        # 5G_versionMsg = list(os.popen('adb -s {} shell getprop ro.build.display.id'.format(id)).readlines())
+        # command_getVersion = str(versionMsg).split("'")[1].split("\\")[0]
+        print("处理后获取的设备版本号为：" + hu_command_getVersion)
+        versionString = subprocess.Popen(hu_command_getVersion, shell=True, stdout=subprocess.PIPE,
+                                         stderr=subprocess.STDOUT).stdout.read()
+        # versionString.wait()##使用方法待研究
+        versionString = versionString.decode('gbk')
+        versionString = re.split('\n', versionString)[0].strip('\r')
+        s = '%s\n' % versionString
+        txt.insert(END, s)
+
+
 def getDevices():
     command_getVersion = 'adb devices'
-    versionString = subprocess.Popen(command_getVersion, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.read()
+    versionString = subprocess.Popen(command_getVersion, shell=True, stdout=subprocess.PIPE,
+                                     stderr=subprocess.STDOUT).stdout.read()
     versionString = versionString.decode()
     txt.insert(END, '%s\n' % versionString)
+
+
 def getApkPackageName():
-     filename=tkinter.filedialog.askopenfilename()
-     if filename != '':
-         command = 'aapt d bading '+filename+' | grep package'
-         returnStr = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.read()
-         returnStr=returnStr.decode('gbk')
-     else:
-         txt.insert(END, '未选择文件')
+    filename = tkinter.filedialog.askopenfilename()
+    if filename != '':
+        command = 'aapt d bading ' + filename + ' | grep package'
+        returnStr = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE,
+                                     stderr=subprocess.STDOUT).stdout.read()
+        returnStr = returnStr.decode('gbk')
+    else:
+        txt.insert(END, '未选择文件')
+
+
 def listPackages():
     command_getVersion = 'adb shell pm list packages'
-    versionString = subprocess.Popen(command_getVersion, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.read()
-    versionString=versionString.decode()
+    versionString = subprocess.Popen(command_getVersion, shell=True, stdout=subprocess.PIPE,
+                                     stderr=subprocess.STDOUT).stdout.read()
+    versionString = versionString.decode()
     txt.insert(END, '%s\n' % versionString)
+
+
 def listPackages3():
     command_getVersion = 'adb shell pm list packages -3'
-    versionString = subprocess.Popen(command_getVersion, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.read()
-    versionString=versionString.decode()
+    versionString = subprocess.Popen(command_getVersion, shell=True, stdout=subprocess.PIPE,
+                                     stderr=subprocess.STDOUT).stdout.read()
+    versionString = versionString.decode()
     txt.insert(END, '%s\n' % versionString)
+
+
 def listPackagesSys():
     command_getVersion = 'adb shell pm list packages -s'
-    versionString = subprocess.Popen(command_getVersion, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.read()
-    versionString=versionString.decode()
+    versionString = subprocess.Popen(command_getVersion, shell=True, stdout=subprocess.PIPE,
+                                     stderr=subprocess.STDOUT).stdout.read()
+    versionString = versionString.decode()
     txt.insert(END, '%s\n' % versionString)
+
+
 def localInstall():
-    filename=tkinter.filedialog.askopenfilename()
+    filename = tkinter.filedialog.askopenfilename()
     if filename != '':
-         command = 'adb install '+filename
-         versionString = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.read()
-         versionString=versionString.decode()
-         txt.insert(END, '%s\n' % versionString)
+        command = 'adb install ' + filename
+        versionString = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE,
+                                         stderr=subprocess.STDOUT).stdout.read()
+        versionString = versionString.decode()
+        txt.insert(END, '%s\n' % versionString)
     else:
-         txt.insert(END, '未选择文件')
+        txt.insert(END, '未选择文件')
+
+
 def getResolution():
     command_getVersion = 'adb shell  wm size'
-    versionString = subprocess.Popen(command_getVersion, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.read()
-    versionString=versionString.decode()
+    versionString = subprocess.Popen(command_getVersion, shell=True, stdout=subprocess.PIPE,
+                                     stderr=subprocess.STDOUT).stdout.read()
+    versionString = versionString.decode()
     txt.insert(END, '%s\n' % versionString)
+
+
 def getPixelDensity():
     command_getVersion = 'adb shell wm density'
-    versionString = subprocess.Popen(command_getVersion, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.read()
-    versionString=versionString.decode()
+    versionString = subprocess.Popen(command_getVersion, shell=True, stdout=subprocess.PIPE,
+                                     stderr=subprocess.STDOUT).stdout.read()
+    versionString = versionString.decode()
     txt.insert(END, '%s\n' % versionString)
+
+
 win = Tk()
 win.geometry('620x360')
 win.title('adb命令工具箱')
@@ -190,18 +247,20 @@ txt = Text(win)
 txt.place(rely=0.5, relheight=0.5)
 if __name__ == '__main__':
     check_adb_devices_ini()
-btn1 = Button(win, text='hu版本', command=getDevicesVersion)
+btn1 = Button(win, text='hu版本', command=getDevices_hu_Version)
 btn1.place(relx=0.1, rely=0.1, relwidth=0.2, relheight=0.1)
-btn2 = Button(win, text='获取设备', command=getDevices)
-btn2.place(relx=0.1, rely=0.2, relwidth=0.2, relheight=0.1)
-btn3=Button(win,text='选择apk安装',command=localInstall)
-btn3.place(relx=0.1, rely=0.3, relwidth=0.2, relheight=0.1)
-btn4 = Button(win, text='查看安装包名', command=listPackages)
-btn4.place(relx=0.3, rely=0.1, relwidth=0.2, relheight=0.1)
-btn5 = Button(win, text='查看第三方包名', command=listPackages3)
-btn5.place(relx=0.3, rely=0.2, relwidth=0.2, relheight=0.1)
-btn6 = Button(win, text='查看车机系统包名', command=listPackagesSys)
-btn6.place(relx=0.3, rely=0.3, relwidth=0.2, relheight=0.1)
+btn2 = Button(win, text='5G版本', command=getDevices_5G_Version)
+btn2.place(relx=0.1, rely=0.4, relwidth=0.2, relheight=0.1)
+btn3 = Button(win, text='获取设备', command=getDevices)
+btn3.place(relx=0.1, rely=0.2, relwidth=0.2, relheight=0.1)
+btn4 = Button(win, text='选择apk安装', command=localInstall)
+btn4.place(relx=0.1, rely=0.3, relwidth=0.2, relheight=0.1)
+btn5 = Button(win, text='查看安装包名', command=listPackages)
+btn5.place(relx=0.3, rely=0.1, relwidth=0.2, relheight=0.1)
+btn6 = Button(win, text='查看第三方包名', command=listPackages3)
+btn6.place(relx=0.3, rely=0.2, relwidth=0.2, relheight=0.1)
+btn7 = Button(win, text='查看车机系统包名', command=listPackagesSys)
+btn7.place(relx=0.3, rely=0.3, relwidth=0.2, relheight=0.1)
 # btn7 = Button(win, text='查看手机分辨率', command=getResolution)
 # btn7.place(relx=0.5, rely=0.1, relwidth=0.2, relheight=0.1)
 # btn8 = Button(win, text='查看手机像素密度', command=getPixelDensity)
