@@ -54,7 +54,7 @@
 #     BUTTON.grid(row=5, column=0, sticky=W)
 #     BUTTON.place(x=115, y=250)
 #     TOP.mainloop()
-
+import time
 ### python 使用tkinter&subprocess 制作adb工具
 # 工具涵盖功能：
 # 1.查看车机版本，5G版本，mcu版本
@@ -142,19 +142,49 @@ def getDevices_hu_Version():
         txt.insert(END, s)
 
 
-def getDevices_5G_Version():
+def getDevices_mcu_Version():
     # 存储所有设备的设备信息，即设备ID，设备版本号，设备的appActivity
     deviceMsgs = []
     # 获取连接设备的版本号、appActivity
     for i in range(0, len(devices_list)):
         id = devices_list[i]
+        if id[-1] == 'f':
+            hu_versionMsg = list(os.popen('adb -s {} shell /vendor/bin/get_mcu_version'.format(id)).readlines())
+            time.sleep(3)
+            hu_command_getVersion = str(hu_versionMsg).split("'")[1].split("\\")[0]
+            print("处理后获取的设备版本号为：" + hu_command_getVersion)
+            versionString = subprocess.Popen(hu_command_getVersion, shell=True, stdout=subprocess.PIPE,
+                                             stderr=subprocess.STDOUT).stdout.read()
+            # versionString.wait()##使用方法待研究
+            versionString = versionString.decode('gbk')
+            versionString = re.split('\n', versionString)[0].strip('\r')
+            s = '%s\n' % versionString
+            txt.insert(END, s)
+
+
+def getDevices_5G_Version():
+    # 存储所有设备的设备信息，即设备ID，设备版本号，设备的appActivity
+
+    global rear_id, five_G_device
+    # rear_id = ''
+    five_G_device=''
+    deviceMsgs = []
+    # 获取连接设备的版本号、appActivity
+    for i in range(0, len(devices_list)):
+        id = devices_list[i]
+        if id[-1] == 'r':
+            rear_id = id[-1]
+            print(id[-1], rear_id)
+            five_G_device = os.popen('adb -s {} shell adb devices'.format(rear_id)).readlines()
         # 获取连接设备的安卓系统版本
         # versionMsg = list(os.popen('adb -s {} shell getprop ro.build.display.id'.format(id)).readlines())
         # version = str(versionMsg).split("'")[1].split("\\")[0]
         # print("adb命令获取的设备版本号为：", versionMsg)
 
-        hu_versionMsg = list(os.popen('adb -s {} shell /vendor/bin/get_mcu_version'.format(id)).readlines())
-        hu_command_getVersion = str(hu_versionMsg).split("'")[1].split("\\")[0]
+        fiveG_versionMsg = list(os.popen(
+            'adb -s {} shell adb -s five_G_device shell cat /etc/quectel-project-version'.format(rear_id,five_G_device)).readlines())
+        print(fiveG_versionMsg)
+        hu_command_getVersion = str(fiveG_versionMsg).split("'")[1].split("\\")[0]
         # 5G_versionMsg = list(os.popen('adb -s {} shell getprop ro.build.display.id'.format(id)).readlines())
         # command_getVersion = str(versionMsg).split("'")[1].split("\\")[0]
         print("处理后获取的设备版本号为：" + hu_command_getVersion)
@@ -249,13 +279,13 @@ if __name__ == '__main__':
     check_adb_devices_ini()
 btn1 = Button(win, text='hu版本', command=getDevices_hu_Version)
 btn1.place(relx=0.1, rely=0.1, relwidth=0.2, relheight=0.1)
-btn2 = Button(win, text='5G版本', command=getDevices_5G_Version)
+btn2 = Button(win, text='MCU版本', command=getDevices_mcu_Version)
 btn2.place(relx=0.1, rely=0.4, relwidth=0.2, relheight=0.1)
 btn3 = Button(win, text='获取设备', command=getDevices)
 btn3.place(relx=0.1, rely=0.2, relwidth=0.2, relheight=0.1)
 btn4 = Button(win, text='选择apk安装', command=localInstall)
 btn4.place(relx=0.1, rely=0.3, relwidth=0.2, relheight=0.1)
-btn5 = Button(win, text='查看安装包名', command=listPackages)
+btn5 = Button(win, text='5G版本', command=getDevices_5G_Version)
 btn5.place(relx=0.3, rely=0.1, relwidth=0.2, relheight=0.1)
 btn6 = Button(win, text='查看第三方包名', command=listPackages3)
 btn6.place(relx=0.3, rely=0.2, relwidth=0.2, relheight=0.1)
