@@ -236,11 +236,41 @@ import matplotlib.pyplot as plt
 # driver.quit()
 import pyecharts
 # print(pyecharts.__version__)
-from pyecharts.charts import Bar
+import pandas as pd
 
-bar = Bar()
-bar.add_xaxis(["衬衫","羊毛衫",'雪纺裤','裤子','高跟鞋','袜子'])
-bar.add_yaxis("商家A",[5,20,36,10,75,90])
-# render 会生成本地 HTML 文件，默认会在当前目录生成 render.html 文件
-# 也可以传入路径参数，如 bar.render("mycharts.html")
-bar.render('mycharts.html')
+# total_data = pd.read_excel('D:\project\py_project/豆瓣电影Top250.xlsx')
+# td = pd.DataFrame(total_data)
+# print(td)  # 通常会通过print来检查一下是否顺利读取
+# import pandas as pd
+
+# 读取Excel文件
+file_path = 'D:\project\py_project/语音.xlsx'  # 替换为你的Excel文件路径
+sheet_name = 'Sheet1'  # 替换为你要读取的工作表名称
+df = pd.read_excel(file_path, sheet_name=sheet_name)
+
+
+# 获取字段（fields）的数量以及每个字段的名称
+field_count = df.shape[1]
+fields = df.columns
+
+# 初始化字典，用于存储每个字段在指定行之间的内容计数
+content_counts = {}
+for field in fields:
+    content_counts[field] = [0] * field_count
+
+# 遍历Excel文件中的每一行，统计每个字段在当前行以及前N行（N为指定行数）中的出现次数。
+for row in df.itertuples():
+    row_index = row[0]
+    for col in range(1, df.shape[1] + 1):
+        # 统计每个字段在当前行以及前N行（N为指定行数）中的出现次数
+        for prev_row in range(row_index - 1, row_index - 1 - 1, -1):
+            if '语音' in df.at[prev_row, col]:
+                content_counts[fields[col - 1]][row_index - 1] += 1
+                break
+
+# 输出字典，显示每个字段在指定行之间的内容计数
+for field, counts in content_counts.items():
+    print(f'{field}: {counts}')
+
+
+
