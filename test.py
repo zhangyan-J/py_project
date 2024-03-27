@@ -242,35 +242,45 @@ import pandas as pd
 # td = pd.DataFrame(total_data)
 # print(td)  # 通常会通过print来检查一下是否顺利读取
 # import pandas as pd
+import os
+import xml.etree.ElementTree as ET
 
-# 读取Excel文件
-file_path = 'D:\project\py_project/语音.xlsx'  # 替换为你的Excel文件路径
-sheet_name = 'Sheet1'  # 替换为你要读取的工作表名称
-df = pd.read_excel(file_path, sheet_name=sheet_name)
+def search_xml_files(directory):
+    xml_files = []
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            if file.endswith('.xml'):
+                xml_files.append(os.path.join(root, file))
+    return xml_files
 
+def read_code_from_xml(file_path):
+    tree = ET.parse(file_path)
+    root = tree.getroot()
+    code_elements = root.findall('.//Code')
+    code = []
+    for element in code_elements:
+        code.append(element.text)
+    return code
 
-# 获取字段（fields）的数量以及每个字段的名称
-field_count = df.shape[1]
-fields = df.columns
+def replace_code_in_xml(file_path, new_code):
+    tree = ET.parse(file_path)
+    root = tree.getroot()
+    code_elements = root.findall('.//Code')
+    for element in code_elements:
+        element.text = new_code
+    tree.write(file_path)
 
-# 初始化字典，用于存储每个字段在指定行之间的内容计数
-content_counts = {}
-for field in fields:
-    content_counts[field] = [0] * field_count
+def main():
+    directory = 'path/to/your/xml/files'
+    new_code = 'This is the new code'
 
-# 遍历Excel文件中的每一行，统计每个字段在当前行以及前N行（N为指定行数）中的出现次数。
-for row in df.itertuples():
-    row_index = row[0]
-    for col in range(1, df.shape[1] + 1):
-        # 统计每个字段在当前行以及前N行（N为指定行数）中的出现次数
-        for prev_row in range(row_index - 1, row_index - 1 - 1, -1):
-            if '语音' in df.at[prev_row, col]:
-                content_counts[fields[col - 1]][row_index - 1] += 1
-                break
+    xml_files = search_xml_files(directory)
+    for file in xml_files:
+        code = read_code_from_xml(file)
+        replace_code_in_xml(file, new_code)
 
-# 输出字典，显示每个字段在指定行之间的内容计数
-for field, counts in content_counts.items():
-    print(f'{field}: {counts}')
+if __name__ == '__main__':
+    main()
 
 
 
