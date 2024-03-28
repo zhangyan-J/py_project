@@ -87,7 +87,7 @@ def make_window(theme):
 
     # Table Data
     data = [["John", 10], ["Jen", 5]]
-    headings = ["Name", "Score"]
+    headings = ["Colums", "Rows"]
 
     input_layout = [[sg.Menu(menu_def, key='-MENU-')],
                     [sg.Text('Anything that requires user-input is in this tab!')],
@@ -96,7 +96,8 @@ def make_window(theme):
                      sg.Image(data=sg.DEFAULT_BASE64_LOADING_GIF, enable_events=True, key='-GIF-IMAGE-'), ],
                     [sg.Checkbox('Checkbox', default=True, k='-CB-')],
                     [sg.Radio('Radio1', "RadioDemo", default=True, size=(10, 1), k='-R1-'),
-                     sg.Radio('Radio2', "RadioDemo", default=True, size=(10, 1), k='-R2-')],
+                     sg.Radio('Radio2', "RadioDemo", default=False, size=(10, 1), k='-R2-'),
+                     sg.Radio('Radio3', "RadioDemo", default=False, size=(10, 1), k='-R3-')],
                     [sg.Combo(values=('Combo 1', 'Combo 2', 'Combo 3'), default_value='Combo 1', readonly=True,
                               k='-COMBO-'),
                      sg.OptionMenu(values=('Option 1', 'Option 2', 'Option 3'), k='-OPTION MENU-'), ],
