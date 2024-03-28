@@ -92,7 +92,25 @@ def check_adb_devices_ini():
 
     # 获取所有的安卓设备SN号码
     devices_list = []
+    # 设置目录和文件名
+    directory = 'D:\log'
+    filename = 'adb.ini'
     adb_devices_file = 'D:\log\\adb.ini'
+    # 完整的文件路径
+    filepath = os.path.join(directory, filename)
+
+    # 如果目录不存在，则创建目录
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    # 如果文件不存在，则创建文件
+    if not os.path.isfile(filepath):
+        open(filepath, 'w').close()
+
+    # 确保替换your_directory_path和your_filename.txt为你想要创建文件的实际目录路径和文件名。如果目录不存在，os.makedirs将会创建它。如果指定的文件不存在，open(
+    #     filepath, 'w')
+    # 将会创建一个新的空文件。
+
     if os.path.exists(adb_devices_file):
         run_cmd('del /f /q ' + adb_devices_file)
     print(run_cmd('adb devices >' + adb_devices_file))
