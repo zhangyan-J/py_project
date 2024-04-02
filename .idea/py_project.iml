@@ -9,9 +9,11 @@
       <sourceFolder url="file://$MODULE_DIR$/拆分excel到目录并且打包成zip" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/braek_up_excel" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/deal_with_csv" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/filter_table" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/filter_table/handle_excel" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.10 (py_project)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.9" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyNamespacePackagesService">
