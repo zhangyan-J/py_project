@@ -15,6 +15,8 @@
 # import matplotlib
 #
 # matplotlib.use('TkAgg')
+import keyword
+
 import numpy as np
 import math
 import matplotlib.pyplot as plt
@@ -285,18 +287,18 @@ import pandas as pd
 #
 # if __name__ == '__main__':
 #     main()
-import re
-
-# 读取XML文件
-with open('D:\project\py_project\\filter_xml_file\\x-public\\new.xml', 'r',encoding='utf-8') as file:
-    xml_content = file.read()
-
-# 使用正则表达式替换多行代码
-xml_content = re.sub(r'<action name="changeDisplay">.*?</action>', r'\1', xml_content, flags=re.DOTALL)
-
-# 将替换后的代码写入新的XML文件
-with open('D:\project\py_project\\filter_xml_file\\x-public\\new_file.xml', 'w') as file:
-    file.write(xml_content)
+# import re
+#
+# # 读取XML文件
+# with open('D:\project\py_project\\filter_xml_file\\x-public\\new.xml', 'r',encoding='utf-8') as file:
+#     xml_content = file.read()
+#
+# # 使用正则表达式替换多行代码
+# xml_content = re.sub(r'<action name="changeDisplay">.*?</action>', r'\1', xml_content, flags=re.DOTALL)
+#
+# # 将替换后的代码写入新的XML文件
+# with open('D:\project\py_project\\filter_xml_file\\x-public\\new_file.xml', 'w') as file:
+#     file.write(xml_content)
 
 # import re
 # import time
@@ -343,3 +345,4 @@ with open('D:\project\py_project\\filter_xml_file\\x-public\\new_file.xml', 'w')
 # xml_text = '<action name="changeDisplay">\r\n\t<param name="args">sleep 1</param>\r\n\t<param name="secondDisplay">false</param></action>'
 # new_xml_text = replace_text(xml_text)
 # print(new_xml_text)
+
