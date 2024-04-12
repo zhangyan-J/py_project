@@ -39,21 +39,6 @@ if __name__ == '__main__':
             pd.DataFrame(invalid_names, columns=["无效数据"]).to_excel(writer, sheet_name="无效数据", index=False)
             print("文件已保存，请查看有效数据和无效数据")
     else:
-        # sheetnames = pd.ExcelFile(file_path).sheet_names
-        # print(sheetnames)
-        # position = 1
-        # position2 = 1
-        # for i in sheetnames:
-        #     if i == '有效数据':
-        #         break
-        #     position += 1
-        #
-        # for j in sheetnames:
-        #     if j == '无效数据':
-        #         break
-        #     position2 += 1
-        #
-        # print('原文件已经包含有效数据和无效数据，请查看第', position, '个sheet页是有效数据，第', position2, '个sheet页是无效数据')
         sheetnames = pd.ExcelFile(file_path).sheet_names
         print(sheetnames)
         position = 1
