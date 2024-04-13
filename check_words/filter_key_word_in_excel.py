@@ -2,7 +2,8 @@ import pandas as pd
 
 
 # 读取Excel文件
-file_path = r"D:\zhangyan7\Downloads\P0P1P1常态化自动化用例.xlsx"  # 替换为你的Excel文件路径
+# file_path = r"D:\zhangyan7\Downloads\P0P1P1常态化自动化用例.xlsx"  # 替换为你的Excel文件路径
+file_path = input("请输入文件路径：")
 if file_path.endswith('.xls'):
     engine = 'xlrd'
 
@@ -21,7 +22,7 @@ for index, row in df.iterrows():
     # print(f"正在检查第 {index} 行")
     for col_index, column_value in row.items():
         if keyword in str(column_value):
-            print(index)
+            # print(index)
             print(f"找到关键字 '{keyword}' 在第 {index+ 2} 行 {col_index} 列")
 
 # 查找关键字
