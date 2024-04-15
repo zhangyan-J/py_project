@@ -1,7 +1,49 @@
 import pandas as pd
+import logging
+import time
+import os
+
+# current_dir = os.path.dirname(os.path.abspath(__file__))
+# current_dir = os.path.abspath(os.path.dirname(__file__))
+current_dir = os.getcwd()
+print(current_dir)
+log_dir = os.path.join(current_dir, "logs")
+if not os.path.exists(log_dir):
+    os.mkdir(log_dir)
 
 
-def count_words_txt(file_path, keyword):
+class Debugger:
+    def __init__(self, log_file):
+        if not os.path.exists(log_file):
+            os.system(r"touch {}".format(log_file))
+        # 创建一个日志器
+        logger = logging.getLogger("logger")
+        # 设置日志输出的最低等级,低于当前等级则会被忽略
+        logger.setLevel(logging.INFO)
+        # 创建处理器：sh为控制台处理器，fh为文件处理器
+        sh = logging.StreamHandler()
+        self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(logging.DEBUG)
+        log_file = os.path.join(log_dir, "check_word_info.log")
+        fh = logging.FileHandler(log_file, encoding="UTF-8")
+        # 创建格式器,并将sh，fh设置对应的格式
+        formator = logging.Formatter(fmt="%(asctime)s %(filename)s %(levelname)s %(message)s",
+                                     datefmt="%Y/%m/%d %X")
+        sh.setFormatter(formator)
+        fh.setFormatter(formator)
+        # 将处理器，添加至日志器中
+        logger.addHandler(sh)
+        logger.addHandler(fh)
+        # file_handler = logging.FileHandler(log_file)
+        # file_handler.setFormatter(formatter)
+        # self.logger.addHandler(file_handler)
+
+    def count_words_excel(self, file_path, keyword):
+        pass
+
+
+def count_words_txt(self, file_path, keyword):
+    self.log().info(f"正在检查文件：{file_path}")
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
             content = file.read()
@@ -24,7 +66,8 @@ def count_words_txt(file_path, keyword):
             return None
 
 
-def count_words_excel(file_path, keyword):
+def count_words_excel(self, file_path, keyword):
+    self.log().info(f"正在检查文件：{file_path}")
     try:
         if file_path.endswith('.xls'):
             engine = 'xlrd'
@@ -58,7 +101,7 @@ def count_words_excel(file_path, keyword):
             return None
 
 
-def main():
+def main(log_file=None):
     file_type = input("请输入文件类型（txt/excel）: ")
     if file_type == 'txt':
         file_path = input("请输入文件路径：")
@@ -75,10 +118,14 @@ def main():
         count = count_words_excel(file_path, keyword)
         if count is not None:
             print('文件中共有 {} 个关键字。'.format(count), )
+            print(Debugger(log_file).count_words_excel(file_path, keyword))
         else:
             print("关键字类型错误")
     else:
         print("文件类型错误")
+
+    def debug(self, message):
+        self.logger.debug(message)
 
 
 if __name__ == "__main__":
