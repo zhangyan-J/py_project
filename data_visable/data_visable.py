@@ -61,7 +61,7 @@ bar = (
     .add_yaxis("商家B", [15, 6, 45, 20, 35, 66])
     .set_global_opts(title_opts=opts.TitleOpts(title="主标题", subtitle="副标题"))
 )
-bar.render('D:\project\py_project\data_visable\mycharts.html')
+bar.render(r'D:\practice\github\py_project\data_visable\mycharts.html')
 ####Note:在使用pandas或者Numpy时，确保将数值类型转换成为python原生的int/float。比如整数类型请确保为int，而不是numpy.int32
 
 ###使用Notebook
