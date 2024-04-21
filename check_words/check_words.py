@@ -38,12 +38,11 @@ class Debugger:
         # file_handler.setFormatter(formatter)
         # self.logger.addHandler(file_handler)
 
-    def count_words_excel(self, file_path, keyword):
-        pass
+    # def count_words_excel(self, file_path, keyword):
+    #     pass
 
 
 def count_words_txt(self, file_path, keyword):
-    self.log().info(f"正在检查文件：{file_path}")
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
             content = file.read()
@@ -66,8 +65,9 @@ def count_words_txt(self, file_path, keyword):
             return None
 
 
-def count_words_excel(self, file_path, keyword):
-    self.log().info(f"正在检查文件：{file_path}")
+def count_words_excel(file_path, keyword):
+    # log().info(f"正在检查文件：{file_path}")
+    global all_sheets
     try:
         if file_path.endswith('.xls'):
             engine = 'xlrd'
@@ -83,14 +83,32 @@ def count_words_excel(self, file_path, keyword):
         return None
 
     else:
-        df = pd.read_excel(file_path, engine=engine)
-        content = df.to_string()
-        # 遍历DataFrame中的每个单元格
-        for index, row in df.iterrows():
-            # print(f"正在检查第 {index} 行")
-            for col_index, column_value in row.items():
-                if keyword in str(column_value):
-                    print(f"找到关键字 '{keyword}' 在第 {index + 2} 行 {col_index} 列")
+        # 【实例】：遍历DataFrame中的每个单元格
+        # for index, row in df.iterrows():
+        #     # print(f"正在检查第 {index} 行")
+        #     for col_index, column_value in row.items():
+        #         if keyword in str(column_value):
+        #             print(f"找到关键字 '{keyword}' 在第 {index + 2} 行 {col_index} 列")
+
+        excel_file = pd.ExcelFile(file_path)
+        sheet_names = excel_file.sheet_names
+
+        for sheet_name in sheet_names:
+            all_sheets = pd.read_excel(file_path, sheet_name=sheet_name)
+            # print(all_sheets)
+            for col_name, sheet_data in all_sheets.items():
+                # print(f'col_name: {col_name}')
+                # print(type(sheet_data))
+                # print('\n')
+                sd = sheet_data.to_frame()
+                for index, row in sd.iterrows():
+                    # print(index)
+                    for col_index, column_value in row.items():
+                        # print(col_index)
+                        # print(type(column_value))
+                        if str(keyword) in str(column_value):
+                            print(f"找到关键字 '{keyword}' 在{sheet_name}，在第 {index + 2} 行 {col_index} 列")
+        content = all_sheets.to_string()
         if isinstance(keyword, str):
             words = content.split(keyword)
             # 统计关键字数量
@@ -102,7 +120,8 @@ def count_words_excel(self, file_path, keyword):
 
 
 def main(log_file=None):
-    file_type = input("请输入文件类型（txt/excel）: ")
+    file_tp = input("请输入文件类型（txt/excel）: ")
+    file_type = file_tp.lower()
     if file_type == 'txt':
         file_path = input("请输入文件路径：")
         keyword = input("请输入要统计的关键字：")
@@ -117,8 +136,7 @@ def main(log_file=None):
         keyword = input("请输入要统计的关键字：")
         count = count_words_excel(file_path, keyword)
         if count is not None:
-            print('文件中共有 {} 个关键字。'.format(count), )
-            print(Debugger(log_file).count_words_excel(file_path, keyword))
+            print('文件中共有 {} 个关键字。'.format(count))
         else:
             print("关键字类型错误")
     else:
