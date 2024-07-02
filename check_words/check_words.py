@@ -14,6 +14,7 @@ if not os.path.exists(log_dir):
 
 class Debugger:
     def __init__(self, log_file):
+
         if not os.path.exists(log_file):
             os.system(r"touch {}".format(log_file))
         # 创建一个日志器
