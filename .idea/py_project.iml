@@ -2,7 +2,6 @@
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/15.3" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/check_wav" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/check_wav/x-public" isTestSource="true" />
@@ -11,6 +10,7 @@
       <sourceFolder url="file://$MODULE_DIR$/deal_with_csv" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/filter_table" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/filter_table/handle_excel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/request_test/spider_netease_music" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.9 (py_project)" jdkType="Python SDK" />
