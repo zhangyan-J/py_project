@@ -1,0 +1,3 @@
+D:\project\py_project\filter_xml_file\x-public\netease_delete_music.xml
+D:\project\py_project\filter_xml_file\x-public\qqmusic_add_music.xml
+D:\project\py_project\filter_xml_file\x-public\X_common_voice_wake_up.xml
