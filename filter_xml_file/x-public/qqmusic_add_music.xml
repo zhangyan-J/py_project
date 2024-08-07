@@ -1,9 +1,0 @@
-<functions>
-	<function name="X_common_voice_">
-			<!-- 切换屏幕到主驾  -->
-			<action id="cmd_1" name="changeDisplay">
-				<param name="args">sleep 1</param>
-				<param name="secondDisplay">false</param>
-			</action>
-	</function>
-</functions>
