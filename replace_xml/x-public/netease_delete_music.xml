@@ -1,0 +1,9 @@
+<functions>
+	<function name="netease_delete_music">
+			
+			<action id="cmd_1" name="changeDisplay">
+				<param name="args">sleep 1</param>
+				<param name="secondDisplay">false</param>
+			</action>
+	</function>
+</functions>

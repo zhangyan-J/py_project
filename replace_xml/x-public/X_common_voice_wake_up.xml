@@ -1,0 +1,9 @@
+<functions>
+	<function name="X_common_voice_wake">
+			
+			<action id="cmd_1" name="changeDisplay">
+				<param name="args">sleep 1</param>
+				<param name="secondDisplay">false</param>
+			</action>
+	</function>
+</functions>
