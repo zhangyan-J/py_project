@@ -1287,3 +1287,13 @@ import csv
 
 
 ##获取豆瓣Top250图书前三页书籍的信息
+def buile_profile(first,last,**userinfo):
+    profile = {}
+    profile['姓'] = first
+    profile['名'] = last
+    for key,value in userinfo.items():
+        profile[key] = value
+    return profile
+
+user_profile = buile_profile('li','hong',地址='beijing',区域='computer')
+print(user_profile)
