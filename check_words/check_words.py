@@ -2,6 +2,8 @@ import pandas as pd
 import logging
 import time
 import os
+import warnings
+warnings.filterwarnings('ignore')
 
 # current_dir = os.path.dirname(os.path.abspath(__file__))
 # current_dir = os.path.abspath(os.path.dirname(__file__))
