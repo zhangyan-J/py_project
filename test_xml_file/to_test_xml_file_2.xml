@@ -1,0 +1,15 @@
+<functions>
+	<function name="to_test_">
+
+			<person name="John" age="30">
+				<address city="New York"/>
+			</person>
+			<person name="Alice" age="25">
+				<address city="Los Angeles"/>
+			</person>
+			<person name="Bob" age="35">
+				<address city="Chicago"/>
+			</person>
+
+	</function>
+</functions>
