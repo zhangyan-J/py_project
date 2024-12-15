@@ -16,6 +16,7 @@
 #
 # matplotlib.use('TkAgg')
 import datetime
+import json
 import keyword
 import time
 
@@ -1310,4 +1311,257 @@ import csv
 #
 #
 # get_xml_file_path( r"D:\project\py_project\test_xml_file")
+
+# print('✈国内\t◎国际\t◎发现低价')
+
+
+# !/usr/bin/env python
+# import PySimpleGUI as sg
+#
+# '''
+# A chatbot with history
+# Scroll up and down through prior commands using the arrow keys
+# Special keyboard keys:
+#     Up arrow - scroll up in commands
+#     Down arrow - scroll down in commands
+#     Escape - clear current command
+#     Control C - exit form
+# '''
+#
+#
+# def ChatBotWithHistory():
+#     # -------  Make a new Window  ------- #
+#     # give our form a spiffy set of colors
+#     sg.theme('GreenTan')
+#
+#     layout = [[sg.Text('Your output will go here', size=(40, 1))],
+#               [sg.Output(size=(127, 30), font=('Helvetica 10'))],
+#               [sg.Text('Command History'),
+#                sg.Text('', size=(20, 3), key='history')],
+#               [sg.ML(size=(85, 5), enter_submits=True, key='query', do_not_clear=False),
+#                sg.Button('SEND', button_color=(sg.YELLOWS[0], sg.BLUES[0]), bind_return_key=True),
+#                sg.Button('EXIT', button_color=(sg.YELLOWS[0], sg.GREENS[0]))]]
+#
+#     window = sg.Window('Chat window with history', layout,
+#                        default_element_size=(30, 2),
+#                        font=('Helvetica', ' 13'),
+#                        default_button_element_size=(8, 2),
+#                        return_keyboard_events=True)
+#
+#     # ---===--- Loop taking in user input and using it  --- #
+#     command_history = []
+#     history_offset = 0
+#
+#     while True:
+#         event, value = window.read()
+#
+#         if event == 'SEND':
+#             query = value['query'].rstrip()
+#             # EXECUTE YOUR COMMAND HERE
+#             print('The command you entered was {}'.format(query))
+#             command_history.append(query)
+#             history_offset = len(command_history) - 1
+#             # manually clear input because keyboard events blocks clear
+#             window['query'].update('')
+#             window['history'].update('\n'.join(command_history[-3:]))
+#
+#         elif event in (sg.WIN_CLOSED, 'EXIT'):  # quit if exit event or X
+#             break
+#
+#         elif 'Up' in event and len(command_history):
+#             command = command_history[history_offset]
+#             # decrement is not zero
+#             history_offset -= 1 * (history_offset > 0)
+#             window['query'].update(command)
+#
+#         elif 'Down' in event and len(command_history):
+#             # increment up to end of list
+#             history_offset += 1 * (history_offset < len(command_history) - 1)
+#             command = command_history[history_offset]
+#             window['query'].update(command)
+#
+#         elif 'Escape' in event:
+#             window['query'].update('')
+#
+#
+# ChatBotWithHistory()
+#
+from tkinter import *
+
+from matplotlib.font_manager import json_dump
+from requests import delete
+from twisted.words.protocols.jabber.jstrports import client
+
+
+# import tkinter.messagebox as messagebox
+#
+# class Application(Frame):
+#     def __init__(self, master=None):
+#         Frame.__init__(self, master)
+#         self.pack()
+#         self.createWidgets()
+#
+#     def createWidgets(self):
+#         self.nameInput = Entry(self)
+#         self.nameInput.pack()
+#         self.alertButton = Button(self, text='Hello', command=self.hello)
+#         self.alertButton.pack()
+#
+#     def hello(self):
+#         name = self.nameInput.get() or 'world'
+#         messagebox.showinfo('Message', 'Hello, %s' % name)
+#
+# app = Application()
+# #
+# import requests
+# import urllib
+# import json
+# import os
+#
+# def download_jay_chou_songs():
+#     # 搜索关键词：周杰伦
+#     keyword = '周杰伦'
+#     # 存储下载的歌曲的文件夹
+#     folder_path = r'D:\project\py_project\jay_chou_songs'
+#     if not os.path.exists(folder_path):
+#         os.makedirs(folder_path)
+#
+#     # 用于获取歌曲信息的 URL
+#     search_url = 'https://c.y.qq.com/soso/fcgi-bin/client_search_cp?&t=0&aggr=1&cr=1&catZhida=1&lossless=0&flag_qc=0&p=1&n=20&w=' + keyword
+#     response = requests.get(search_url)
+#     jm1 = json.loads(response.text.strip('callback()()'))
+#     jm1 = jm1['data']['song']['list']
+#
+#     mids = []
+#     songmids = []
+#     songnames = []
+#     singers = []
+#
+#     for j in jm1:
+#         try:
+#             mids.append(j['media_mid'])
+#             songmids.append(j['songmid'])
+#             songnames.append(j['songname'])
+#             singers.append(j['singer'][0]['name'])
+#         except:
+#             print('获取歌曲信息出错')
+#
+#     # 获取歌曲的下载链接
+#     for n in range(len(mids)):
+#         res2_url = 'https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg?&jsonpCallback=MusicJsonCallback&cid=205361747&songmid=' + songmids[n] + '&filename=C400' + mids[n] + '.m4a&guid=6612300644'
+#         res2 = requests.get(res2_url)
+#         jm2 = json.loads(res2.text)
+#         try:
+#             vkey = jm2['data']['items'][0]['vkey']
+#             # 歌曲的真实下载链接
+#             song_url = 'http://dl.stream.qqmusic.qq.com/C400' + mids[n] + '.m4a?vkey=' + vkey + '&guid=6612300644&uin=0&fromtag=66'
+#             # 下载歌曲到本地
+#             urllib.request.urlretrieve(song_url, folder_path + '/' + songnames[n] + '-' + singers[n] + '.m4a')
+#             print(str(n + 1) + '*****' + songnames[n] + '-' + singers[n] + '.m4a *****' + '下载完成')
+#         except:
+#             print(str(n + 1) + '*****' + songnames[n] + '-' + singers[n] + '.m4a *****' + '下载失败')
+#
+# if __name__ == '__main__':
+#     download_jay_chou_songs()
+
+
+# def delete_all_task(self):
+#     self.click(text_='循环任务')
+#     first_tk_id = "xx_id"
+#     delete_btn_id = "delete_id"
+#     while self.exist(first_tk_id):
+#         self.click(id_=first_tk_id)
+#         self.click(id_=delete_btn_id)
+#         self.click(text_='删除')
+#         time.sleep(0.25)
+#
+#
+# def report_log(param):
+#     pass
+#
+#
+# def ask_before_run(self,selected:bool):
+#     report_log(f"设置运行前询问-{selected}")
+#     json_str = self.get_ui_propetority(id_='xx_id')
+#     json_dict = json.loads(json_str)
+#     if json_dict['selected'] != 'selected':
+#         self.click(id_='xx_id')
+#
+# def _input_task_name(self,text:str):
+#     report_log(r"任务名-{task_name}")
+#     self.input_text(id_='xx_id',content=text)
+#     self.click(coordinate='123,1345')
+#
+# def verify_toast(self,text:str):
+#     report_log(f"toast为-{text}")
+#     toast_text = self.get_ui_toast(package="lix.com.he")
+#     self.capture_image()
+#     return toast_text == f"正在运行-{text}"
+#
+#
+
+# import tkinter as tk
+# import webbrowser
+#
+#
+# def open_video():
+#     # 这里假设你的视频文件路径，你需要替换成实际的电视剧视频文件路径
+#     video_path = "your_video_file_path.mp4"
+#     video_url = 'https://v.qq.com/'
+#     webbrowser.open(video_url)
+#     # import os
+#     # 使用系统默认的视频播放器打开视频，不同系统的命令有所不同，下面以常见的Windows和Linux（Ubuntu为例）的通用写法示例
+#     # os.system(f'start "" "{video_path}"')  # 在Windows下使用start命令打开文件，这里的两个双引号是为了处理可能包含空格的文件名
+#     # 对于Linux（Ubuntu），可以使用如下类似命令（如果有需要可以添加更多的判断来适配不同系统）
+#     # os.system(f'xdg-open "{video_path}"')
+#
+#
+# def open_news():
+#     # 这里以一个简单的新闻网页网址为例，你可以替换成你常用的新闻网站网址
+#     news_url = "https://news.baidu.com/"
+#     webbrowser.open(news_url)
+#
+#
+# root = tk.Tk()
+# root.title("老人简易媒体助手")
+# root.geometry("300x200")
+#
+# video_button = tk.Button(root, text="打开电视剧", command=open_video)
+# video_button.pack(pady=20)
+#
+# news_button = tk.Button(root, text="打开新闻", command=open_news)
+# news_button.pack(pady=10)
+#
+# root.mainloop()
+
+import requests
+# class Person:
+#     def __init__(self,name,age):
+#         self.name = name
+#         self.age = age
+#
+#     def introduce(self):
+#         print(f"我叫{self.name},今年{self.age}岁了，很高兴认识你")
+#
+# class Student(Person):
+#     def __init__(self,name,age,grade):
+#         super().__init__(name,age)
+#         self.grade = grade
+#
+#     def study(self):
+#         print(f'{self.name} 正在读{self.grade}年级。')
+#
+# def introduce_person(person):
+#     person.introduce()
+# # person1 = Student('小红',15,8)
+# # print(person1.age)
+# # print(person1.name)
+# # person1.introduce()
+# # person1.study()
+# person2 = Person('小明','30')
+# introduce_person(person2)
+#
+# student2 = Student('张强','15','9')
+# introduce_person(student2)
+
 
