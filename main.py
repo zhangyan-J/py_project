@@ -1,16 +1,95 @@
-# 这是一个示例 Python 脚本。
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLineEdit, QPushButton, QTextEdit
+import sys
 
-# 按 Shift+F10 执行或将其替换为您的代码。
-# 按 双击 Shift 在所有地方搜索类、文件、工具窗口、操作和设置。
+import requests
+import json
 
+def get_feishu_sheet_data(spreadsheet_token, range_name, app_id, app_secret):
+    # 获取 tenant_access_token
+    token_url = "https://li.feishu.cn/sheets/Xp7MslzpYhN7fzt88FucjPFcn7L"
+    token_data = {
+        "app_id": app_id,
+        "app_secret": app_secret
+    }
+    token_response = requests.post(token_url, json=token_data)
+    tenant_access_token = token_response.json().get("tenant_access_token")
 
-def print_hi(name):
-    # 在下面的代码行中使用断点来调试脚本。
-    print(f'Hi, {name}')  # 按 Ctrl+F8 切换断点。
+    # 获取表格数据
+    sheet_url = f"https://open.feishu.cn/open-apis/sheets/v2/spreadsheets/{spreadsheet_token}/values/{range_name}"
+    headers = {
+        "Authorization": f"Bearer {tenant_access_token}",
+        "Content-Type": "application/json"
+    }
+    sheet_response = requests.get(sheet_url, headers=headers)
+    return sheet_response.json()
+import subprocess
 
+def run_adb_command(command):
+    result = subprocess.run(command, shell=True, capture_output=True, text=True)
+    return result.stdout
 
-# 按间距中的绿色按钮以运行脚本。
-if __name__ == '__main__':
-    print_hi('PyCharm')
+class FeishuADBTool(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.adb_result_display = None
+        self.run_adb_button = None
+        self.fetch_button = None
+        self.sheet_token_input = None
+        self.sheet_content_display = None
+        self.init_ui()
 
-# 访问 https://www.jetbrains.com/help/pycharm/ 获取 PyCharm 帮助
+    def init_ui(self):
+        self.setWindowTitle("飞书表格 ADB 工具")
+        layout = QVBoxLayout()
+
+        # 输入框：飞书表格 Token
+        self.sheet_token_input = QLineEdit(self)
+        self.sheet_token_input.setPlaceholderText("输入飞书表格 Token")
+        layout.addWidget(self.sheet_token_input)
+
+        # 按钮：获取表格内容
+        self.fetch_button = QPushButton("获取表格内容", self)
+        self.fetch_button.clicked.connect(self.fetch_sheet_data)
+        layout.addWidget(self.fetch_button)
+
+        # 文本框：显示表格内容
+        self.sheet_content_display = QTextEdit(self)
+        self.sheet_content_display.setReadOnly(True)
+        layout.addWidget(self.sheet_content_display)
+
+        # 按钮：执行 ADB 命令
+        self.run_adb_button = QPushButton("执行 ADB 命令", self)
+        self.run_adb_button.clicked.connect(self.run_adb_commands)
+        layout.addWidget(self.run_adb_button)
+
+        # 文本框：显示 ADB 命令执行结果
+        self.adb_result_display = QTextEdit(self)
+        self.adb_result_display.setReadOnly(True)
+        layout.addWidget(self.adb_result_display)
+
+        self.setLayout(layout)
+
+    def fetch_sheet_data(self):
+        spreadsheet_token = self.sheet_token_input.text()
+        app_id = "your_app_id"
+        app_secret = "your_app_secret"
+        range_name = "Sheet1!A1:B10"  # 示例范围
+        data = get_feishu_sheet_data(spreadsheet_token, range_name, app_id, app_secret)
+        self.sheet_content_display.setText(json.dumps(data, indent=2))
+
+    def run_adb_commands(self):
+        commands = [
+            ["adb devices"],
+            ["adb shell ls"]
+        ]
+        results = []
+        for cmd in commands:
+            result = run_adb_command(cmd)
+            results.append(result)
+        self.adb_result_display.setText("\n".join(results))
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = FeishuADBTool()
+    window.show()
+    sys.exit(app.exec_())
