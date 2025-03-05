@@ -1,1 +1,0 @@
-D:\scrcpy-win64-v1.25\scrcpy.exe -s 51bdc08aa0f
